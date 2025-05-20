@@ -15,22 +15,21 @@ import {IGyroECLPPoolFactory} from "./PoolFactoryInterfaces.sol";
  * Create and initialize a new Gyroscope ECLP pool on mainnet
  *
  * To run script in simulation mode:
- * forge script script/GyroResolvECLPCreate.s.sol:GyroResolvECLPCreate --rpc-url sepolia
+ * forge script script/GyroResolvECLPCreate.s.sol:GyroResolvECLPCreate --rpc-url mainnet
  *
  * To run script in broadcast mode:
- * forge script script/GyroResolvECLPCreate.s.sol:GyroResolvECLPCreate --rpc-url sepolia --broadcast
+ * forge script script/GyroResolvECLPCreate.s.sol:GyroResolvECLPCreate --rpc-url mainnet --broadcast
  */
 contract GyroResolvECLPCreate is Script {
-    IPermit2 public constant permit2 = IPermit2(0x000000000022D473030F116dDEE9F6B43aC78BA3);
-    IRouter public constant router = IRouter(0x5e315f96389C1aaF9324D97d3512ae1e0Bf3C21a); // sepolia
-    IGyroECLPPoolFactory poolFactory = IGyroECLPPoolFactory(0x589cA6855C348d831b394676c25B125BcdC7F8ce); // sepolia
-    // IRouter public constant router = IRouter(0xAE563E3f8219521950555F5962419C8919758Ea2); // mainnet
-    // IGyroECLPPoolFactory poolFactory = IGyroECLPPoolFactory(0xE9B0a3bc48178D7FE2F5453C8bc1415d73F966d0); // mainnet
+    IPermit2 permit2 = IPermit2(0x000000000022D473030F116dDEE9F6B43aC78BA3);
 
-    IERC20 wstUSR = IERC20(0x0f409E839a6A790aecB737E4436293Be11717f95); // sepolia beets
-    IERC20 rlp = IERC20(0xb19382073c7A0aDdbb56Ac6AF1808Fa49e377B75); // sepolia bal
-    // IERC20 wstUSR = IERC20(0x1202F5C7b4B9E47a1A484E8B270be34dbbC75055); // mainnet
-    // IERC20 rlp = IERC20(0x4956b52aE2fF65D74CA2d61207523288e4528f96); // mainnet
+    // balancer contracts
+    IRouter router = IRouter(0xAE563E3f8219521950555F5962419C8919758Ea2); // mainnet
+    IGyroECLPPoolFactory poolFactory = IGyroECLPPoolFactory(0xE9B0a3bc48178D7FE2F5453C8bc1415d73F966d0); // mainnet
+
+    // tokens
+    IERC20 wstUSR = IERC20(0x1202F5C7b4B9E47a1A484E8B270be34dbbC75055);
+    IERC20 rlp = IERC20(0x4956b52aE2fF65D74CA2d61207523288e4528f96);
 
     function run() public {
         uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY"); // Add .env in root with PRIVATE_KEY
@@ -45,15 +44,13 @@ contract GyroResolvECLPCreate is Script {
         TokenConfig memory t0;
         t0.token = wstUSR;
         t0.tokenType = TokenType.WITH_RATE;
-        t0.rateProvider = IRateProvider(0x34101091673238545De8a846621823D9993c3085); // sepolia stataEthUSDC rate provider
-        // t0.rateProvider = IRateProvider(0x100ab8fb135a76d1014f529041F35a1a9e6c78a2); // mainnet
+        t0.rateProvider = IRateProvider(0x100ab8fb135a76d1014f529041F35a1a9e6c78a2);
         t0.paysYieldFees = true;
 
         TokenConfig memory t1;
         t1.token = rlp;
         t1.tokenType = TokenType.WITH_RATE;
-        t1.rateProvider = IRateProvider(0x22DB61f3A8d81d3D427a157fdAe8c7EB5b5fD373); // sepolia stataEthDAI rate provider
-        // t1.rateProvider = IRateProvider(0x4017F109CF5583D68A6E213CC65f609Cd12791E6); // mainnet
+        t1.rateProvider = IRateProvider(0x4017F109CF5583D68A6E213CC65f609Cd12791E6);
         t1.paysYieldFees = true;
 
         TokenConfig[] memory tokenConfigs = new TokenConfig[](2);
@@ -67,7 +64,7 @@ contract GyroResolvECLPCreate is Script {
         eclpParams.s = 706929938183415611;
         eclpParams.lambda = 500000000000000000000;
 
-        // example derived params were calculted using typescript SDK helper function
+        // these example derived params were calculted using balancer SDK helper function
         IGyroECLPPool.DerivedEclpParams memory derivedEclpParams;
         derivedEclpParams.tauAlpha.x = -98000611417254585354938420274489260778;
         derivedEclpParams.tauAlpha.y = 19896737467340474059784953456410754810;
@@ -79,7 +76,7 @@ contract GyroResolvECLPCreate is Script {
         derivedEclpParams.z = -4867856539378270432555214623661648118;
         derivedEclpParams.dSq = 100000000000000000108254687936544866500;
 
-        // deploy the pool contract via the factory
+        // deploy the pool via the factory
         address pool = poolFactory.create(
             "Gyroscope ECLP RLP/wstUSR", // name
             "ECLP-RLP-wstUSR", // symbol
@@ -103,14 +100,15 @@ contract GyroResolvECLPCreate is Script {
         permit2.approve(address(wstUSR), address(router), type(uint160).max, type(uint48).max);
         permit2.approve(address(rlp), address(router), type(uint160).max, type(uint48).max);
 
-        // initialize the pool via the router contract
+        // initialize the pool via the router
         IERC20[] memory tokens = new IERC20[](2);
         tokens[0] = wstUSR;
         tokens[1] = rlp;
 
         uint256[] memory exactAmountsIn = new uint256[](2);
-        exactAmountsIn[0] = 0.1e18;
-        exactAmountsIn[1] = 0.1e18;
+        exactAmountsIn[0] = 1e18;
+        exactAmountsIn[1] = 1e18;
+
         uint256 minBptAmount = 0;
 
         router.initialize(pool, tokens, exactAmountsIn, minBptAmount, false, bytes(""));

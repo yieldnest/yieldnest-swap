@@ -1,4 +1,4 @@
-# Foundry Starter
+# Balancer Foundry Starter Kit
 
 Example foundry scripts for interacting with Balancer v3
 
