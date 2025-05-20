@@ -11,16 +11,18 @@ import {IRouter} from "@balancer-v3-monorepo/interfaces/vault/IRouter.sol";
 import {IPermit2} from "permit2/src/interfaces/IPermit2.sol";
 import {IGyroECLPPoolFactory} from "./PoolFactoryInterfaces.sol";
 
+// git commit -m 'clean up file and script names'
+
 /**
  * Create and initialize a new Gyroscope ECLP pool on mainnet
  * 
  * To run script in simulation mode:
- * forge script script/GyroResolveECLPCreate.s.sol:GyroResolveECLPCreate --rpc-url sepolia
+ * forge script script/GyroResolvECLPCreate.s.sol:GyroResolvECLPCreate --rpc-url sepolia
  * 
  * To run script in broadcast mode:
- * forge script script/GyroResolveECLPCreate.s.sol:GyroResolveECLPCreate --rpc-url sepolia --broadcast
+ * forge script script/GyroResolvECLPCreate.s.sol:GyroResolvECLPCreate --rpc-url sepolia --broadcast
  */
-contract GyroResolveECLPCreate is Script {
+contract GyroResolvECLPCreate is Script {
     IPermit2 public constant permit2 = IPermit2(0x000000000022D473030F116dDEE9F6B43aC78BA3);
     IRouter public constant router = IRouter(0x5e315f96389C1aaF9324D97d3512ae1e0Bf3C21a); // sepolia
     IGyroECLPPoolFactory poolFactory = IGyroECLPPoolFactory(0x589cA6855C348d831b394676c25B125BcdC7F8ce); // sepolia

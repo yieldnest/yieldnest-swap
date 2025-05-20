@@ -1,6 +1,6 @@
 # Foundry Starter
 
-A starter kit for writing foundry scripts to interact with Balancer v3.
+Example foundry scripts for interacting with Balancer v3
 
 1. Ensure you have the latest version of foundry installed
 
@@ -27,11 +27,11 @@ MAINNET_RPC_URL=
 4. Simulate a script
 
 ```
-forge script script/GyroResolveECLPCreate.s.sol:GyroResolveECLPCreate --rpc-url sepolia
+forge script script/GyroResolvECLPCreate.s.sol:GyroResolvECLPCreate --rpc-url sepolia
 ```
 
 5. Broadcast a script
 
 ```
-forge script script/GyroResolveECLPCreate.s.sol:GyroResolveECLPCreate --rpc-url sepolia --broadcast
+forge script script/GyroResolvECLPCreate.s.sol:GyroResolvECLPCreate --rpc-url sepolia --broadcast
 ```
