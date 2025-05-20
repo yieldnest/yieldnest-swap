@@ -11,14 +11,12 @@ import {IRouter} from "@balancer-v3-monorepo/interfaces/vault/IRouter.sol";
 import {IPermit2} from "permit2/src/interfaces/IPermit2.sol";
 import {IGyroECLPPoolFactory} from "./PoolFactoryInterfaces.sol";
 
-// git commit -m 'clean up file and script names'
-
 /**
  * Create and initialize a new Gyroscope ECLP pool on mainnet
- * 
+ *
  * To run script in simulation mode:
  * forge script script/GyroResolvECLPCreate.s.sol:GyroResolvECLPCreate --rpc-url sepolia
- * 
+ *
  * To run script in broadcast mode:
  * forge script script/GyroResolvECLPCreate.s.sol:GyroResolvECLPCreate --rpc-url sepolia --broadcast
  */
@@ -28,7 +26,6 @@ contract GyroResolvECLPCreate is Script {
     IGyroECLPPoolFactory poolFactory = IGyroECLPPoolFactory(0x589cA6855C348d831b394676c25B125BcdC7F8ce); // sepolia
     // IRouter public constant router = IRouter(0xAE563E3f8219521950555F5962419C8919758Ea2); // mainnet
     // IGyroECLPPoolFactory poolFactory = IGyroECLPPoolFactory(0xE9B0a3bc48178D7FE2F5453C8bc1415d73F966d0); // mainnet
-
 
     IERC20 wstUSR = IERC20(0x0f409E839a6A790aecB737E4436293Be11717f95); // sepolia beets
     IERC20 rlp = IERC20(0xb19382073c7A0aDdbb56Ac6AF1808Fa49e377B75); // sepolia bal
@@ -44,7 +41,7 @@ contract GyroResolvECLPCreate is Script {
         PoolRoleAccounts memory roleAccounts;
         roleAccounts.pauseManager = 0x0000000000000000000000000000000000000000;
         roleAccounts.swapFeeManager = 0x0000000000000000000000000000000000000000;
-        
+
         TokenConfig memory t0;
         t0.token = wstUSR;
         t0.tokenType = TokenType.WITH_RATE;
@@ -62,7 +59,7 @@ contract GyroResolvECLPCreate is Script {
         TokenConfig[] memory tokenConfigs = new TokenConfig[](2);
         tokenConfigs[0] = t0;
         tokenConfigs[1] = t1;
-    
+
         IGyroECLPPool.EclpParams memory eclpParams;
         eclpParams.alpha = 980000000000000000;
         eclpParams.beta = 1007000000000000000;
