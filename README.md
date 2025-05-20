@@ -1,66 +1,37 @@
-## Foundry
+# Foundry Starter
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+A starter kit for writing foundry scripts to interact with Balancer v3.
 
-Foundry consists of:
+1. Ensure you have the latest version of foundry installed
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
-
-## Documentation
-
-https://book.getfoundry.sh/
-
-## Usage
-
-### Build
-
-```shell
-$ forge build
+```
+foundryup
 ```
 
-### Test
+2. Clone repo and install dependencies
 
-```shell
-$ forge test
+```
+git clone https://github.com/balancer/balancer-v3-foundry-starter.git
+cd bbalancer-v3-foundry-starter/
+forge install
 ```
 
-### Format
+3. Create a `.env` file in the root of the project
 
-```shell
-$ forge fmt
+```
+PRIVATE_KEY=
+SEPOLIA_RPC_URL=
+MAINNET_RPC_URL=
 ```
 
-### Gas Snapshots
+4. Simulate a script
 
-```shell
-$ forge snapshot
+```
+forge script script/GyroResolveECLPCreate.s.sol:GyroResolveECLPCreate --rpc-url sepolia
 ```
 
-### Anvil
+5. Broadcast a script
 
-```shell
-$ anvil
 ```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
+forge script script/GyroResolveECLPCreate.s.sol:GyroResolveECLPCreate --rpc-url sepolia --broadcast
 ```
