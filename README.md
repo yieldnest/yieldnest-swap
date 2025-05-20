@@ -16,12 +16,10 @@ cd bbalancer-v3-foundry-starter/
 forge install
 ```
 
-3. Create a `.env` file in the root of the project
+3. Create a `.env` file in the root of the project and add any necessary environment variables
 
 ```
-PRIVATE_KEY=
-SEPOLIA_RPC_URL=
-MAINNET_RPC_URL=
+cp .env.example .env
 ```
 
 4. Simulate a script
