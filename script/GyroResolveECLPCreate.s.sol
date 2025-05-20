@@ -9,32 +9,17 @@ import {IERC20} from "@openzeppelin/contracts/interfaces/IERC20.sol";
 import {IRateProvider} from "@balancer-v3-monorepo/interfaces/solidity-utils/helpers/IRateProvider.sol";
 import {IRouter} from "@balancer-v3-monorepo/interfaces/vault/IRouter.sol";
 import {IPermit2} from "permit2/src/interfaces/IPermit2.sol";
+import {IGyroECLPPoolFactory} from "./PoolFactoryInterfaces.sol";
 
 /**
- * Run script (in simulation mode):
+ * Create and initialize a new Gyroscope ECLP pool on mainnet
+ * 
+ * To run script in simulation mode:
  * forge script script/GyroResolveECLPCreate.s.sol:GyroResolveECLPCreate --rpc-url sepolia
  * 
- * Run script (in broadcast mode):
+ * To run script in broadcast mode:
  * forge script script/GyroResolveECLPCreate.s.sol:GyroResolveECLPCreate --rpc-url sepolia --broadcast
  */
-interface IGyroECLPPoolFactory {
-    function create(
-        string memory name,
-        string memory symbol,
-        TokenConfig[] memory tokens,
-        IGyroECLPPool.EclpParams memory eclpParams,
-        IGyroECLPPool.DerivedEclpParams memory derivedEclpParams,
-        PoolRoleAccounts memory roleAccounts,
-        uint256 swapFeePercentage,
-        address poolHooksContract,
-        bool enableDonation,
-        bool disableUnbalancedLiquidity,
-        bytes32 salt
-    ) external returns (address pool);
-
-    function getPoolCount() external view returns (uint256);
-}
-
 contract GyroResolveECLPCreate is Script {
     IPermit2 public constant permit2 = IPermit2(0x000000000022D473030F116dDEE9F6B43aC78BA3);
     IRouter public constant router = IRouter(0x5e315f96389C1aaF9324D97d3512ae1e0Bf3C21a); // sepolia
@@ -49,8 +34,7 @@ contract GyroResolveECLPCreate is Script {
     // IERC20 rlp = IERC20(0x4956b52aE2fF65D74CA2d61207523288e4528f96); // mainnet
 
     function run() public {
-        // Add .env in root with PRIVATE_KEY
-        uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
+        uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY"); // Add .env in root with PRIVATE_KEY
 
         vm.startBroadcast(deployerPrivateKey);
 
