@@ -25,11 +25,11 @@ cp .env.example .env
 4. Simulate a script
 
 ```
-forge script script/GyroResolvECLPCreate.s.sol:GyroResolvECLPCreate --rpc-url sepolia
+forge script script/GyroResolvECLPCreate.s.sol:GyroResolvECLPCreate --rpc-url mainnet
 ```
 
 5. Broadcast a script
 
 ```
-forge script script/GyroResolvECLPCreate.s.sol:GyroResolvECLPCreate --rpc-url sepolia --broadcast
+forge script script/GyroResolvECLPCreate.s.sol:GyroResolvECLPCreate --rpc-url mainnet --broadcast
 ```
