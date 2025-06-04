@@ -9,7 +9,7 @@ import {IERC20} from "@openzeppelin/contracts/interfaces/IERC20.sol";
  * To run against a local fork, start anvil:
  * `$ anvil --fork-url RPC_URL
  * Run script (in simulation mode):
- * `$ forge script script/GyroECLPCreate.s.sol:GyroECLPCreate --fork-url http://localhost:8545
+ * `$ forge script script/LBPoolCreate.s.sol:LBPoolCreate --fork-url http://localhost:8545
  */
 struct LBPParams {
     address owner;
@@ -76,7 +76,7 @@ contract LBPoolCreate is Script {
             "LBP",
             lbpParams,
             1e16, // Swap fee percentage (1%)
-            bytes32(msg.sender)
+            bytes32(uint256(uint160(msg.sender)))
         );
 
         console.log("LB Pool created at:", pool);
