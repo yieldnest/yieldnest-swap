@@ -33,8 +33,10 @@ contract BufferSwap is Script {
         swapPath[0].minAmountOut = 0;
 
         IBatchRouter.SwapPathStep[] memory swapPathSteps = new IBatchRouter.SwapPathStep[](2);
+        // whenever we operate against an ERC4626 buffer, we use the address of the wrapper as the pool
         swapPathSteps[0].pool = address(waUsdc);
         // The tokenOut of this step is used as the tokenIn of the next step
+        // Since the token out is the ERC4626 buffer, this signals to the router that we want to wrap the token in
         swapPathSteps[0].tokenOut = waUsdc;
         // notice that isBuffer == true here, because waUsdc is an ERC4626 Buffer
         swapPathSteps[0].isBuffer = true;
