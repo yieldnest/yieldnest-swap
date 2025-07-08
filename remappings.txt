@@ -5,3 +5,4 @@
 @balancer-labs/v3-interfaces/=lib/balancer-v3-monorepo/pkg/interfaces/
 @balancer-labs/v3-solidity-utils/=lib/balancer-v3-monorepo/pkg/solidity-utils/
 @balancer-labs/v3-vault/=lib/balancer-v3-monorepo/pkg/vault/
+@balancer-labs/v3-pool-utils/=lib/balancer-v3-monorepo/pkg/pool-utils/
