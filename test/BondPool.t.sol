@@ -53,7 +53,7 @@ contract BondPoolTest is BondPoolContractsDeployer, BasePoolTest {
 
         (daiIdx, usdcIdx) = getSortedIndexes(address(dai), address(usdc));
 
-        poolMinSwapFeePercentage = 0.001e16; // 0.001%
+        poolMinSwapFeePercentage = 0;
         poolMaxSwapFeePercentage = 10e16;
     }
 
